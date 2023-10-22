@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
   res.render('index', {
     meta: {
       data: {
-        title: 'Mathis OUDIN - portfolio',
+        title: 'Mathis OUDIN - Portfolio',
         description: 'Metadata description.'
       }
     }
