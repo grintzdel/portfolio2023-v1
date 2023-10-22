@@ -6,7 +6,14 @@ const port = 3000
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 app.get('/', (req, res) => {
-  res.render('index')
+  res.render('index', {
+    meta: {
+      data: {
+        title: 'Mathis OUDIN - portfolio',
+        description: 'Metadata description.'
+      }
+    }
+  })
 })
 
 app.listen(port, () => {
