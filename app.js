@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
         // laisser vide
       }
       if (!meta) {
-        meta = { data: { title: 'mathiso - Portfolio', description: 'Description par défaut' } }
+        meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
       }
 
       res.render('pages/home', {
@@ -58,8 +58,6 @@ app.get('/', (req, res) => {
     })
   })
 })
-
-// ...
 
 app.get('/about', (req, res) => {
   initApi(req).then(api => {
@@ -71,7 +69,7 @@ app.get('/about', (req, res) => {
         // laisser vide
       }
       if (!meta) {
-        meta = { data: { title: 'Titre par défaut', description: 'Description par défaut' } }
+        meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
       }
 
       res.render('pages/about', {
@@ -92,7 +90,7 @@ app.get('/contact', (req, res) => {
         // laisser vide
       }
       if (!meta) {
-        meta = { data: { title: 'Titre par défaut', description: 'Description par défaut' } }
+        meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
       }
 
       res.render('pages/contact', {
@@ -105,7 +103,7 @@ app.get('/contact', (req, res) => {
 
 app.get('/works', (req, res) => {
   initApi(req).then(api => {
-    api.query(Prismic.Predicates.any('document.type', ['wroks', 'meta'])).then(response => {
+    api.query(Prismic.Predicates.any('document.type', ['works', 'meta'])).then(response => {
       const works = response.results.find(doc => doc.type === 'works')
       let meta = response.results.find(doc => doc.type === 'meta')
 
@@ -113,7 +111,7 @@ app.get('/works', (req, res) => {
         // laisser vide
       }
       if (!meta) {
-        meta = { data: { title: 'Titre par défaut', description: 'Description par défaut' } }
+        meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
       }
 
       res.render('pages/works', {
@@ -124,23 +122,22 @@ app.get('/works', (req, res) => {
   })
 })
 
-app.get('/details:uid', (req, res) => {
-  initApi(req).then(api => {
-    api.query(Prismic.Predicates.any('document.type', ['details', 'meta'])).then(response => {
-      const details = response.results.find(doc => doc.type === 'details')
-      let meta = response.results.find(doc => doc.type === 'meta')
+app.get('/details/:uid', async (req, res) => {
+  const api = await initApi(req)
+  api.query(Prismic.Predicates.any('document.type', ['meta'])).then(async response => {
+    const product = await api.getByUID('works', req.params.uid)
+    let meta = response.results.find(doc => doc.type === 'meta')
 
-      if (!details) {
-        // laisser vide
-      }
-      if (!meta) {
-        meta = { data: { title: 'Titre par défaut', description: 'Description par défaut' } }
-      }
+    if (!product) {
+    // laisser vide
+    }
+    if (!meta) {
+      meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
+    }
 
-      res.render('pages/details', {
-        details,
-        meta
-      })
+    res.render('pages/details', {
+      meta,
+      product
     })
   })
 })
