@@ -101,23 +101,24 @@ app.get('/contact', (req, res) => {
   })
 })
 
-app.get('/works', (req, res) => {
-  initApi(req).then(api => {
-    api.query(Prismic.Predicates.any('document.type', ['works', 'meta'])).then(response => {
-      const works = response.results.find(doc => doc.type === 'works')
-      let meta = response.results.find(doc => doc.type === 'meta')
+app.get('/works', async (req, res) => {
+  const api = await initApi(req)
+  api.query(Prismic.Predicates.any('document.type', ['works', 'meta'])).then(async response => {
+    const works = await api.query(Prismic.Predicates.at('document.type', 'works'))
+    let meta = response.results.find(doc => doc.type === 'meta')
 
-      if (!works) {
-        // laisser vide
-      }
-      if (!meta) {
-        meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
-      }
+    console.log(works)
 
-      res.render('pages/works', {
-        works,
-        meta
-      })
+    if (!works) {
+      // laisser vide
+    }
+    if (!meta) {
+      meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
+    }
+
+    res.render('pages/works', {
+      meta,
+      works
     })
   })
 })
@@ -125,7 +126,9 @@ app.get('/works', (req, res) => {
 app.get('/details/:uid', async (req, res) => {
   const api = await initApi(req)
   api.query(Prismic.Predicates.any('document.type', ['product', 'meta'])).then(async response => {
-    const product = await api.getByUID('product', req.params.uid)
+    const product = await api.getByUID('product', req.params.uid, {
+      fetchLinks: 'product.title'
+    })
     let meta = response.results.find(doc => doc.type === 'meta')
 
     if (!product) {
