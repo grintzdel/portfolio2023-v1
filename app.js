@@ -124,12 +124,12 @@ app.get('/works', (req, res) => {
 
 app.get('/details/:uid', async (req, res) => {
   const api = await initApi(req)
-  api.query(Prismic.Predicates.any('document.type', ['meta'])).then(async response => {
-    const product = await api.getByUID('works', req.params.uid)
+  api.query(Prismic.Predicates.any('document.type', ['product', 'meta'])).then(async response => {
+    const product = await api.getByUID('product', req.params.uid)
     let meta = response.results.find(doc => doc.type === 'meta')
 
     if (!product) {
-    // laisser vide
+      // laisser vide
     }
     if (!meta) {
       meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
