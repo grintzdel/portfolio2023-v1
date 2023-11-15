@@ -104,10 +104,10 @@ app.get('/contact', (req, res) => {
 app.get('/works', async (req, res) => {
   const api = await initApi(req)
   api.query(Prismic.Predicates.any('document.type', ['works', 'meta'])).then(async response => {
-    const works = await api.query(Prismic.Predicates.at('document.type', 'works'))
-    let meta = response.results.find(doc => doc.type === 'meta')
+    const { results: works } = await api.query(Prismic.Predicates.at('document.type', 'works'),
+      { fetchLinks: 'product.image' })
 
-    console.log(works)
+    let meta = response.results.find(doc => doc.type === 'meta')
 
     if (!works) {
       // laisser vide
