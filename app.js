@@ -44,9 +44,6 @@ app.get('/', (req, res) => {
       const home = response.results.find(doc => doc.type === 'home')
       let meta = response.results.find(doc => doc.type === 'meta')
 
-      if (!home) {
-        // laisser vide
-      }
       if (!meta) {
         meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
       }
@@ -65,9 +62,6 @@ app.get('/about', (req, res) => {
       const about = response.results.find(doc => doc.type === 'about')
       let meta = response.results.find(doc => doc.type === 'meta')
 
-      if (!about) {
-        // laisser vide
-      }
       if (!meta) {
         meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
       }
@@ -86,9 +80,6 @@ app.get('/contact', (req, res) => {
       const contact = response.results.find(doc => doc.type === 'contact')
       let meta = response.results.find(doc => doc.type === 'meta')
 
-      if (!contact) {
-        // laisser vide
-      }
       if (!meta) {
         meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
       }
@@ -103,23 +94,20 @@ app.get('/contact', (req, res) => {
 
 app.get('/works', async (req, res) => {
   const api = await initApi(req)
-  api.query(Prismic.Predicates.any('document.type', ['works', 'meta'])).then(async response => {
-    const { results: works } = await api.query(Prismic.Predicates.at('document.type', 'works'),
-      { fetchLinks: 'product.image' })
+  let meta = await api.getSingle('meta')
+  const home = await api.getSingle('home')
+  const { results: works } = await api.query(Prismic.Predicates.at('document.type', 'works'), {
+    fetchLinks: 'product.image'
+  })
 
-    let meta = response.results.find(doc => doc.type === 'meta')
+  if (!meta) {
+    meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attrayants' } }
+  }
 
-    if (!works) {
-      // laisser vide
-    }
-    if (!meta) {
-      meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
-    }
-
-    res.render('pages/works', {
-      meta,
-      works
-    })
+  res.render('pages/works', {
+    works,
+    home,
+    meta
   })
 })
 
@@ -131,9 +119,6 @@ app.get('/details/:uid', async (req, res) => {
     })
     let meta = response.results.find(doc => doc.type === 'meta')
 
-    if (!product) {
-      // laisser vide
-    }
     if (!meta) {
       meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
     }
