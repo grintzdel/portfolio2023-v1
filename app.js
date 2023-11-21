@@ -1,9 +1,20 @@
 require('dotenv').config()
 
+const logger = require('morgan')
 const express = require('express')
+const erroHandler = require('errorhandler')
+const methodOverride = require('method-override')
+const bodyParser = require('body-parser')
+
 const app = express()
 const path = require('path')
 const port = 3000
+
+app.use(logger('dev'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(methodOverride())
+app.use(erroHandler())
 
 const Prismic = require('@prismicio/client')
 const PrismicDOM = require('prismic-dom')
@@ -30,6 +41,7 @@ app.use((req, res, next) => {
     linkresolver: handleLinkResolver
   }
 
+  res.locals.Links = handleLinkResolver
   res.locals.PrismicDOM = PrismicDOM
 
   next()
@@ -58,9 +70,10 @@ app.get('/', (req, res) => {
 
 app.get('/about', (req, res) => {
   initApi(req).then(api => {
-    api.query(Prismic.Predicates.any('document.type', ['about', 'meta'])).then(response => {
+    api.query(Prismic.Predicates.any('document.type', ['about', 'meta'])).then(async response => {
       const about = response.results.find(doc => doc.type === 'about')
       let meta = response.results.find(doc => doc.type === 'meta')
+      const preloader = await api.getSingle('preloader')
 
       if (!meta) {
         meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
@@ -68,25 +81,8 @@ app.get('/about', (req, res) => {
 
       res.render('pages/about', {
         about,
-        meta
-      })
-    })
-  })
-})
-
-app.get('/contact', (req, res) => {
-  initApi(req).then(api => {
-    api.query(Prismic.Predicates.any('document.type', ['contact', 'meta'])).then(response => {
-      const contact = response.results.find(doc => doc.type === 'contact')
-      let meta = response.results.find(doc => doc.type === 'meta')
-
-      if (!meta) {
-        meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
-      }
-
-      res.render('pages/contact', {
-        contact,
-        meta
+        meta,
+        preloader
       })
     })
   })
@@ -96,6 +92,8 @@ app.get('/works', async (req, res) => {
   const api = await initApi(req)
   let meta = await api.getSingle('meta')
   const home = await api.getSingle('home')
+  const preloader = await api.getSingle('preloader')
+
   const { results: works } = await api.query(Prismic.Predicates.at('document.type', 'works'), {
     fetchLinks: 'product.image'
   })
@@ -107,13 +105,16 @@ app.get('/works', async (req, res) => {
   res.render('pages/works', {
     works,
     home,
-    meta
+    meta,
+    preloader
   })
 })
 
 app.get('/details/:uid', async (req, res) => {
   const api = await initApi(req)
+
   api.query(Prismic.Predicates.any('document.type', ['product', 'meta'])).then(async response => {
+    const preloader = await api.getSingle('preloader')
     const product = await api.getByUID('product', req.params.uid, {
       fetchLinks: 'product.title'
     })
@@ -125,7 +126,8 @@ app.get('/details/:uid', async (req, res) => {
 
     res.render('pages/details', {
       meta,
-      product
+      product,
+      preloader
     })
   })
 })
