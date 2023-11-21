@@ -52,9 +52,10 @@ app.set('view engine', 'pug')
 
 app.get('/', (req, res) => {
   initApi(req).then(api => {
-    api.query(Prismic.Predicates.any('document.type', ['home', 'meta'])).then(response => {
+    api.query(Prismic.Predicates.any('document.type', ['home', 'meta'])).then(async response => {
       const home = response.results.find(doc => doc.type === 'home')
       let meta = response.results.find(doc => doc.type === 'meta')
+      const preloader = await api.getSingle('preloader')
 
       if (!meta) {
         meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
@@ -62,7 +63,8 @@ app.get('/', (req, res) => {
 
       res.render('pages/home', {
         home,
-        meta
+        meta,
+        preloader
       })
     })
   })
