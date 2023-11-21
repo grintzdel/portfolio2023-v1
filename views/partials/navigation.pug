@@ -1,13 +1,9 @@
 nav.navigation
   .navigation__wrapper
-    a.navigation(href="/")
-      | mathiso
-
+    a.navigation(href="/")=meta.data.title
       svg.navigation__link__icon
 
     ul.navigation__list
-      li.navigation__list__item
-        a.navigation__list__item(href="/works") Work
-
-      li.navigation__list__item
-        a.navigation__list__item(href="/about") About
+      each item in navigation.data.list
+        li.navigation__list__item
+          a.navigation__list__item(href=Link(item.link))=item.text
