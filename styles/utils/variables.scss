@@ -1,2 +1,13 @@
 $color-black: #000;
 $color-white: #fff;
+
+$font-area: 'Area';
+$font-joly: 'Joly';
+$font-sapfir: 'Sapfir';
+
+$ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+
+$z-indexes: (
+  'navigation',
+  'content'
+);

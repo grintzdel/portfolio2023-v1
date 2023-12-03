@@ -1,0 +1,28 @@
+@font-face {
+  font-family: $font-area;
+  src: url('../fonts/areanormal-regular.woff2') format('woff2'),
+    url('../fonts/areanormal-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
+@font-face {
+  font-family: $font-sapfir;
+  src: url('../fonts/sapfir-title.woff2') format('woff2'),
+    url('../fonts/sapfir-title.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: $font-joly;
+  src: url('../fonts/jolydisplay-regular.woff2') format('woff2'),
+    url('../fonts/jolydisplay-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
