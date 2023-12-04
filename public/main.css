@@ -137,21 +137,21 @@ table {
 
 @font-face {
   font-family: "Area";
-  src: url(c328d0f631e9c6fb8a04.woff2) format("woff2"), url(243baca85b9cb641b940.woff) format("woff");
+  src: url(areanormal-regular.4ad9d7f6dda229db6040..woff2) format("woff2"), url(areanormal-regular.d5336bdbf436e79f8145..woff) format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Sapfir";
-  src: url(eb0f19ff8cacb6ad8121.woff2) format("woff2"), url(ab930f60b04349062a92.woff) format("woff");
+  src: url(sapfir-title.8f503f5c28c93dd060a1..woff2) format("woff2"), url(sapfir-title.0aec356afbd939e8bc6a..woff) format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Joly";
-  src: url(56a913c3f089d1e2c137.woff2) format("woff2"), url(69897f0d5115cffef82a.woff) format("woff");
+  src: url(jolydisplay-regular.7c589ec0fc24f080fdd9..woff2) format("woff2"), url(jolydisplay-regular.d345935ac7133633243d..woff) format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
