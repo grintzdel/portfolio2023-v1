@@ -1,4 +1,5 @@
 body {
+  @extend %description-16;
+
   font-family: $font-area;
-  font-size: 1.3rem;
 }
