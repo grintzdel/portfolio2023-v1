@@ -2,7 +2,8 @@
   @extend %center;
   @extend %cover;
 
-
+  background-color: $color-lime;
+  color: $color-black;
 }
 
 .detail__wrapper {
@@ -22,7 +23,9 @@
   object-fit: cover;
 }
 
-.detail__information {}
+.detail__information {
+  padding-left: 8.2rem;
+}
 
 .detail__information__title {
   @extend %title-120;
@@ -35,7 +38,11 @@
 }
 
 .detail__information__highlights {
-  margin-top: 5rem;
+  margin-top: 6rem;
+
+  &:not(:last-child) {
+    margin-bottom: 4rem;
+  }
 }
 
 .detail__information__highlight {
@@ -43,9 +50,19 @@
   display: flex;
 }
 
-.detail__information__highlight__icon {}
+.detail__information__highlight__icon {
+  border: 1px solid #f0f;
+  border-radius: 50%;
+  height: 4rem;
+  width: 4rem;
+  margin-right: 3.75rem;
+}
 
-.detail__information__highlight__text {}
+.detail__information__highlight__text {
+  @extend %description-16;
+
+
+}
 
 .detail__information__list {
   margin-top: 4rem;
@@ -53,7 +70,6 @@
 }
 
 .detail__information__item {
-  align-items: center;
   display: flex;
 
   &:not(:last-child) {
@@ -64,13 +80,19 @@
 .detail__information__item__title {
   @extend %description-12;
 
-
+  width: 11rem;
+  padding-right: 2.5rem;
 }
 
-.detail__information__item__description {}
+.detail__information__item__description {
+  @extend %description-16;
+
+  max-width: 44rem;
+}
 
 .detail__information__link {
   @extend %title-30;
 
+  display: inline-block;
   margin-top: 3rem;
 }
