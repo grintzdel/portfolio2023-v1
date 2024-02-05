@@ -1,5 +1,4 @@
 .about__highlight {
-  position: relative;
   margin: 20rem 0;
 
   &:first-child {
@@ -11,10 +10,62 @@
   }
 }
 
-.about__highlight__wrapper {}
+.about__highlight__wrapper {
+  height: 104rem;
+  margin: auto;
+  position: relative;
+  width: 144rem;
 
-.about__highlight__label {}
+  .about__highlight:nth-child(4) & {
+    width: 104rem;
+  }
+}
 
-.about__highlight__media {}
+.about__highlight__label {
+  @extend %description-12;
 
-.about__highlight__media__image {}
+  position: absolute;
+  left: 50%;
+  top: 9rem;
+  transform: translateX(-50%);
+  width: 9.6rem;
+  text-align: center;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+.about__highlight__title {
+  @extend %title-200;
+
+  transform: translate(-50%, -50%) rotate(-90deg);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.about__highlight__media {
+  position: absolute;
+  height: 76rem;
+  width: 54rem;
+
+  .about__highlight:nth-child(4) & {
+    height: 52.8rem;
+    width: 36rem;
+  }
+
+  &:first-child {
+    left: 0;
+    top: 0;
+  }
+
+  &:last-child {
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.about__highlight__media__image {
+  @extend %cover;
+
+  object-fit: cover;
+}
