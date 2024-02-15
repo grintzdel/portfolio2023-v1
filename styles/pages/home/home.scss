@@ -1,15 +1,45 @@
-.home {}
+.home {
+  @extend %center;
+  @extend %cover;
+
+  background-color: $color-black;
+  color: $color-white;
+  // display: none;
+  text-align: center;
+}
 
 .home__wrapper {}
 
-.home__titles {}
+.home__titles {
+  @extend %vertical-titles;
+}
 
-.home__titles__title {}
+.home__titles__title {
+  @extend %vertical-titles__title;
+}
 
-.home__gallery {}
+.home__gallery {
+  @extend %cover;
+}
 
-.home__gallery__media {}
+.home__gallery__media {
+  position: absolute;
+}
 
 .home__gallery__media__image {}
 
-.home__link {}
+.home__link {
+  @extend %description-14;
+
+  align-items: center;
+  bottom: 5rem;
+  display: flex;
+  height: 6rem;
+  left: 50%;
+  position: absolute;
+  justify-content: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  transform: translateX(-50%);
+  width: 28.8rem;
+}

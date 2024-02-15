@@ -20,6 +20,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 const Prismic = require('@prismicio/client')
 const PrismicDOM = require('prismic-dom')
 
+/**
+ * Initializes the Prismic API.
+ *
+ * @param {Object} req - The Express request object.
+ * @returns {Object} The Prismic API object.
+ */
 const initApi = req => {
   return Prismic.getApi(process.env.PRISMIC_ENDPOINT, {
     accessToken: process.env.PRISMIC_ACCESS_TOKEN,
@@ -27,6 +33,12 @@ const initApi = req => {
   })
 }
 
+/**
+ * Resolves the link for a given Prismic document.
+ *
+ * @param {Object} doc - The Prismic document.
+ * @returns {string} The URL for the document.
+ */
 const handleLinkResolver = doc => {
   if (doc.type === 'product') {
     return '/details/' + doc.uid
@@ -43,6 +55,14 @@ const handleLinkResolver = doc => {
   return '/'
 }
 
+/**
+ * Middleware function that sets up local variables for the response object.
+ * These variables are available to the view during the request-response cycle.
+ *
+ * @param {Object} req - The Express request object.
+ * @param {Object} res - The Express response object.
+ * @param {Function} next - The next middleware function in the stack.
+ */
 app.use((req, res, next) => {
   res.locals.ctx = {
     endpoint: process.env.PRISMIC_ENDPOINT,
@@ -58,6 +78,19 @@ app.use((req, res, next) => {
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
+/**
+ * Route handler for the root URL ("/") of the application.
+ * When a GET request is made to the root URL, this function is executed.
+ * It initializes the Prismic API and queries for documents of type 'home' or 'meta'.
+ *
+ * @param {Object} req - The Express request object.
+ * @param {Object} res - The Express response object.
+ */
+/**
+ * Initializes the Prismic API and queries for documents of type 'home' or 'meta'.
+ *
+ * @param {Object} api - The Prismic API object.
+ */
 app.get('/', (req, res) => {
   initApi(req).then(api => {
     api.query(Prismic.Predicates.any('document.type', ['home', 'meta'])).then(async response => {

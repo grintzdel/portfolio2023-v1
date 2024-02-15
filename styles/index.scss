@@ -6,6 +6,7 @@
 @import './utils/vendors';
 @import './utils/responsive';
 
+@import './shared/vertical-titles';
 @import './shared/descriptions';
 @import './shared/titles';
 
@@ -13,6 +14,8 @@
 @import './base/base';
 
 @import './components/preloader';
+
+@import './layout/navigation';
 
 @import './pages/about/about';
 @import './pages/about/content';
