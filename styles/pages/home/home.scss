@@ -20,10 +20,13 @@
 
 .home__gallery {
   @extend %cover;
+
+
 }
 
 .home__gallery__media {
   position: absolute;
+  display: none;
 }
 
 .home__gallery__media__image {}

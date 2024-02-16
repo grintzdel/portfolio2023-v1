@@ -1,8 +1,12 @@
 .navigation {
   @extend %cover;
+
+  color: $color-white;
+  z-index: z('navigation');
 }
 
 .navigation__link {
+  font-size: 0;
   position: absolute;
   left: 4rem;
   top: 4rem;
@@ -12,6 +16,7 @@
 
 .navigation__link__icon {
   display: block;
+  width: 15rem;
 }
 
 .navigation__list {}
@@ -23,7 +28,7 @@
 }
 
 .navigation__list__link {
-  @extend %description-20;
+  @extend %title-20;
 
 
 }

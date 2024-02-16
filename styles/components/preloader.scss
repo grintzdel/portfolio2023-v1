@@ -2,10 +2,12 @@
   @extend %center;
   @extend %cover;
 
-  background-color: $color-lime;
-  color: $color-black;
+  background-color: $color-black;
+  color: $color-white;
   display: none;
   text-align: center;
+  align-items: center;
+  z-index: z('preloader');
 }
 
 .preloader__text {
@@ -18,7 +20,7 @@
   @extend %description-14;
 
   position: absolute;
-  bottom: 7.3rem;
+  bottom: 3rem;
   left: 50%;
   transform: translateX(-50%);
 }
