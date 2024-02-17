@@ -46,3 +46,9 @@
   transform: translateX(-50%);
   width: 28.8rem;
 }
+
+.home__link__icon {
+  @extend %cover;
+
+
+}
