@@ -13,3 +13,13 @@
 
   padding-top: 2rem;
 }
+
+%vertical-titles__label{
+  @extend %description-12;
+
+  letter-spacing: 0.1rem;
+  margin: 0 3rem;
+  text-align: center;
+  text-transform: uppercase;
+  transform: rotate(90deg);
+}
