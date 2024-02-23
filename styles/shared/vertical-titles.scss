@@ -1,25 +1,26 @@
 %vertical-titles {
-  color: $color-lime;
-  align-items: center;
-  display: flex;
-  left: 50%;
   position: absolute;
-  transform: translate(-50%, -50%) rotate(-90deg);
+  align-items: center;
+  left: 50%;
   top: 50%;
+  transform: translate(-50%, -50%) rotate(-90deg);
+  display: flex;
 }
+%vertical-titles__label {
+  @extend %description-12;
 
+  transform: rotate(90deg);
+  text-align: center;
+  text-transform: uppercase;
+  margin: 0 3rem;
+  letter-spacing: 0.1;
+
+  @include media('<phone') {
+    font-size: 1.2rem;
+  }
+}
 %vertical-titles__title {
   @extend %title-200;
 
   padding-top: 2rem;
-}
-
-%vertical-titles__label{
-  @extend %description-12;
-
-  letter-spacing: 0.1rem;
-  margin: 0 3rem;
-  text-align: center;
-  text-transform: uppercase;
-  transform: rotate(90deg);
 }

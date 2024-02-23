@@ -4,8 +4,18 @@
 
   background-color: $color-black;
   color: $color-white;
-  // display: none;
+  overflow: hidden;
   text-align: center;
+
+  &::before,
+  &::after {
+    content: '';
+    height: 24rem;
+    width: 100%;
+    z-index: 1;
+    position: absolute;
+    left: 0;
+  }
 }
 
 .home__wrapper {}
