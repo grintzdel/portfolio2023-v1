@@ -1,3 +1,5 @@
+import GSAP from 'gsap'
+
 import each from 'lodash/each'
 
 export default class Page {
@@ -6,7 +8,7 @@ export default class Page {
     elements,
     id
   }) {
-    this.slector = element
+    this.selector = element
     this.selectorChildren = {
       ...elements
     }
@@ -19,13 +21,39 @@ export default class Page {
     this.elements = {}
 
     each(this.selectorChildren, (entry, key) => {
-      if (entry instanceof window.HTMLElement || entry instanceof window.NodeList) {
-        this.elements[key] = entry
+      if (
+        entry instanceof window.HTMLElement ||
+        entry instanceof window.NodeList ||
+        Array.isArray(entry)
+      ) {
+        this.elements[key] = entry;
+      } else {
+        this.elements[key] = document.querySelectorAll(entry)
+
+        if (this.elements[key].length === 0) {
+          this.elements[key] = null;
+        } else if (this.elements[key].length === 1) {
+          this.elements[key] = document.querySelector(entry)
+        }
       }
-
-      console.log(entry)
     })
+  }
 
-    console.log('Create', this.id, this.element)
+  show () {
+    return new Promise(resolve => {
+      GSAP.from(this.element, {
+        autoAlpha: 0,
+        onComplete: resolve
+      })
+    })
+  }
+
+  hide () {
+    return new Promise(resolve => {
+      GSAP.to(this.element, {
+        autoAlpha: 0,
+        onComplete: resolve
+      })
+    })
   }
 }

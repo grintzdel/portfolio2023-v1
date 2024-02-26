@@ -8,7 +8,7 @@ export default class Home extends Page {
       element: '.home',
       elements: {
         navigation: document.querySelector('.navigation'),
-        button: '.home__button'
+        button: '.home__link'
       }
     })
   }
