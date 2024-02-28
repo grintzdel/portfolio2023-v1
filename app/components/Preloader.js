@@ -1,3 +1,5 @@
+import GSAP from 'gsap'
+
 import Component from 'classes/Component'
 
 import each from 'lodash/each'
@@ -22,15 +24,40 @@ export default class Preloader extends Component {
 
   createLoader () {
     each(this.elements.images, element => {
-      const image = new Image()
-
-      image.src = element.getAttribute('data-src')
-      image.onload = _ => this.onAssetLoaded(image)
+      element.onload = _ => this.onAssetLoaded(element)
+      element.src = element.getAttribute('data-src')
     })
   }
 
   onAssetLoaded (image) {
     this.length += 1
-    console.log(image)
+
+    const percent = this.length / this.elements.images.length
+
+    this.elements.number.innerHTML = `${Math.round(percent * 100)}%`
+
+    if (percent === 1) {
+      this.onLoaded()
+    }
+  }
+
+  onLoaded () {
+    return new Promise(resolve => {
+      this.animatedOut = GSAP.timeline({
+        delay: 2
+      })
+
+      this.animatedOut.to(this.element, {
+        autoAlpha: 0
+      })
+
+      this.animatedOut.call(_ => {
+        this.emit('completed')
+      })
+    })
+  }
+
+  destroy () {
+    this.element.parentNode.removeChild(this.element)
   }
 }
