@@ -66,8 +66,7 @@ class App {
       this.page.show()
 
       this.addLinkListeners()
-    }
-    else {
+    } else {
       console.log('error')
     }
   }
