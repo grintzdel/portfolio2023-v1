@@ -6,9 +6,10 @@
 @import './utils/vendors';
 @import './utils/responsive';
 
-@import './shared/vertical-titles';
 @import './shared/descriptions';
+@import 'shared/pages';
 @import './shared/titles';
+@import './shared/vertical-titles';
 
 @import './base/fonts';
 @import './base/base';

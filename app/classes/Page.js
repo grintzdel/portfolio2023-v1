@@ -26,12 +26,12 @@ export default class Page {
         entry instanceof window.NodeList ||
         Array.isArray(entry)
       ) {
-        this.elements[key] = entry;
+        this.elements[key] = entry
       } else {
         this.elements[key] = document.querySelectorAll(entry)
 
         if (this.elements[key].length === 0) {
-          this.elements[key] = null;
+          this.elements[key] = null
         } else if (this.elements[key].length === 1) {
           this.elements[key] = document.querySelector(entry)
         }
@@ -41,19 +41,46 @@ export default class Page {
 
   show () {
     return new Promise(resolve => {
-      GSAP.from(this.element, {
-        autoAlpha: 0,
-        onComplete: resolve
+      this.animationIn = GSAP.timeline()
+
+      this.animationIn.fromTo(this.element, {
+        autoAlpha: 0
+      }, {
+        autoAlpha: 1
+      })
+
+      this.animationIn.call(_ => {
+        this.addEventListeners()
+
+        resolve()
       })
     })
   }
 
   hide () {
     return new Promise(resolve => {
-      GSAP.to(this.element, {
+      this.removeEventListeners()
+
+      this.animationOut = GSAP.timeline()
+
+      this.animationOut.to(this.element, {
         autoAlpha: 0,
         onComplete: resolve
       })
     })
+  }
+
+  onMouseWheel (event) {
+    console.log(event)
+
+    const { deltaY } = event
+  }
+
+  addEventListeners () {
+    window.addEventListener('mousewheel', this.onMouseWheel)
+  }
+
+  removeEventListeners () {
+    window.removeEventListener('mousewheel', this.onMouseWheel)
   }
 }
