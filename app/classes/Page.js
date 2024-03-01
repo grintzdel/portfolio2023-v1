@@ -4,6 +4,7 @@ import Prefix from 'prefix'
 import each from 'lodash/each'
 
 export default class Page {
+
   constructor ({
     element,
     elements,
@@ -23,6 +24,8 @@ export default class Page {
       target: 0,
       last: 0
     }
+
+    this.onMouseWheelEvent = this.onMouseWheel.bind(this)
   }
 
   create () {
@@ -92,18 +95,18 @@ export default class Page {
   }
 
   update () {
-    this.scroll.current = GSAP.utils.interpolate(this.scroll.target, this.scroll.current, 0.1)
+    this.scroll.current = GSAP.utils.interpolate(this.scroll.current, this.scroll.target, 0.1)
 
     if (this.elements.wrapper) {
-      this.elements.wrapper.style[this.transformPrefix] = `translateT(-${this.scroll.current}px)`
+      this.elements.wrapper.style[this.transformPrefix] = `translateY(-${this.scroll.current}px)`
     }
   }
 
   addEventListeners () {
-    window.addEventListener('mousewheel', this.onMouseWheel)
+    window.addEventListener('mousewheel', this.onMouseWheelEvent)
   }
 
   removeEventListeners () {
-    window.removeEventListener('mousewheel', this.onMouseWheel)
+    window.removeEventListener('mousewheel', this.onMouseWheelEvent)
   }
 }
