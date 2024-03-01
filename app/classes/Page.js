@@ -4,7 +4,6 @@ import Prefix from 'prefix'
 import each from 'lodash/each'
 
 export default class Page {
-
   constructor ({
     element,
     elements,
@@ -19,12 +18,6 @@ export default class Page {
 
     this.transformPrefix = Prefix('transform')
 
-    this.scroll = {
-      current: 0,
-      target: 0,
-      last: 0
-    }
-
     this.onMouseWheelEvent = this.onMouseWheel.bind(this)
   }
 
@@ -35,7 +28,8 @@ export default class Page {
     this.scroll = {
       current: 0,
       target: 0,
-      last: 0
+      last: 0,
+      limit: 0
     }
 
     each(this.selectorChildren, (entry, key) => {
@@ -94,8 +88,20 @@ export default class Page {
     this.scroll.target += deltaY
   }
 
+  onResize () {
+    if (this.elements.wrapper) {
+      this.scroll.limit = this.elements.wrapper.clientHeight - window.innerHeight
+    }
+  }
+
   update () {
+    this.scroll.target = GSAP.utils.clamp(0, this.scroll.limit, this.scroll.target)
+
     this.scroll.current = GSAP.utils.interpolate(this.scroll.current, this.scroll.target, 0.1)
+
+    if (this.scroll.current < 0.01) {
+      this.scroll.current = 0
+    }
 
     if (this.elements.wrapper) {
       this.elements.wrapper.style[this.transformPrefix] = `translateY(-${this.scroll.current}px)`
