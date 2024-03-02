@@ -3,6 +3,9 @@ import NormalizeWheel from 'normalize-wheel'
 import Prefix from 'prefix'
 
 import each from 'lodash/each'
+import map from 'lodash/map'
+
+import Title from 'animations/Title'
 
 export default class Page {
   constructor ({
@@ -12,7 +15,8 @@ export default class Page {
   }) {
     this.selector = element
     this.selectorChildren = {
-      ...elements
+      ...elements,
+      animationsTitles: '[data-animation="title"]'
     }
 
     this.id = id
@@ -50,6 +54,20 @@ export default class Page {
         }
       }
     })
+
+    this.createAnimations()
+  }
+
+  createAnimations () {
+    console.log(this.elements.animationsTitles)
+
+    this.animationsTitles = map(this.elements.animationsTitles, element => {
+      return new Title({
+        element
+      })
+    })
+
+    console.log(this.animationsTitles)
   }
 
   show () {
