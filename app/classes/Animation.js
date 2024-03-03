@@ -29,10 +29,11 @@ export default class Animation extends Component {
   }
 
   animateIn () {
-
   }
 
   animateOut () {
+  }
 
+  onResize () {
   }
 }
