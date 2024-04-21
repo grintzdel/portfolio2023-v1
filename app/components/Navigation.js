@@ -2,7 +2,7 @@ import GSAP from 'gsap'
 
 import Component from 'classes/Component'
 
-import { COLOR_WHITE, COLOR_BLACK} from 'utils/colors'
+import { COLOR_WHITE, COLOR_BLACK } from 'utils/colors'
 
 export default class Navigation extends Component {
   constructor ({ template }) {
@@ -20,7 +20,7 @@ export default class Navigation extends Component {
   onChange (template) {
     if (template === 'about') {
       GSAP.to(this.element, {
-        color: COLOR_WHITE,
+        color: COLOR_BLACK,
         duration: 1.5
       })
 
@@ -33,7 +33,7 @@ export default class Navigation extends Component {
       })
     } else {
       GSAP.to(this.element, {
-        color: COLOR_WHITE,
+        color: COLOR_BLACK,
         duration: 1.5
       })
 
