@@ -12,6 +12,8 @@ import Title from 'animations/Title'
 
 import { ColorsManager } from 'classes/Colors'
 
+import AsyncLoad from 'classes/AsyncLoad'
+
 export default class Page {
   constructor ({
     element,
@@ -25,7 +27,9 @@ export default class Page {
       animationsHighlights: '[data-animation="highlight"]',
       animationsLabels: '[data-animation="label"]',
       animationsParagraphs: '[data-animation="paragraph"]',
-      animationsTitles: '[data-animation="title"]'
+      animationsTitles: '[data-animation="title"]',
+
+      preloaders: '[data-src]'
     }
 
     this.id = id
@@ -65,6 +69,7 @@ export default class Page {
     })
 
     this.createAnimations()
+    this.createPreloader()
   }
 
   createAnimations () {
@@ -105,6 +110,14 @@ export default class Page {
     this.animations.push(...this.animationsLabels)
   }
 
+  createPreloader () {
+    this.preloaders = map(this.elements.preloaders, element => {
+      return new AsyncLoad({
+        element
+      })
+    })
+  }
+
   show () {
     return new Promise(resolve => {
       ColorsManager.change({
@@ -130,7 +143,7 @@ export default class Page {
 
   hide () {
     return new Promise(resolve => {
-      this.removeEventListeners()
+      this.destroy()
 
       this.animationOut = GSAP.timeline()
 
@@ -175,5 +188,9 @@ export default class Page {
 
   removeEventListeners () {
     window.removeEventListener('mousewheel', this.onMouseWheelEvent)
+  }
+
+  destroy () {
+    this.removeEventListeners()
   }
 }
