@@ -61,6 +61,10 @@ class App {
     this.page.show()
   }
 
+  onPopState () {
+    this.onChange(window.location.pathname)
+  }
+
   async onChange (url) {
     await this.page.hide()
 
@@ -69,6 +73,8 @@ class App {
     if (request.status === 200) {
       const html = await request.text()
       const div = document.createElement('div')
+
+      window.history.pushState({}, '', url)
 
       div.innerHTML = html
 
@@ -114,6 +120,7 @@ class App {
    * Listeners.
    */
   addEventListeners () {
+    window.addEventListener('popstate', this.onPopState.bind(this))
     window.addEventListener('resize', this.onResize.bind(this))
   }
 
