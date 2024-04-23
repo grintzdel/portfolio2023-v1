@@ -19,6 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 const Prismic = require('@prismicio/client')
 const PrismicDOM = require('prismic-dom')
+const UAParser = require('ua-parser-js')
 
 /**
  * Initializes the Prismic API.
@@ -69,6 +70,12 @@ app.use((req, res, next) => {
     linkresolver: handleLinkResolver
   }
 
+  const ua = UAParser(req.headers['user-agent'])
+
+  res.locals.isDesktop = ua.device.type === undefined
+  res.locals.isMobile = ua.device.type === 'mobile'
+  res.locals.isTablet = ua.device.type === 'tablet'
+
   res.locals.Link = handleLinkResolver
   res.locals.PrismicDOM = PrismicDOM
 
@@ -104,7 +111,12 @@ app.get('/', (req, res) => {
       })
 
       if (!meta) {
-        meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
+        meta = {
+          data: {
+            title: 'mathiso - Portfolio',
+            description: 'Jeune amateur de sites web créatifs et attranyants'
+          }
+        }
       }
 
       res.render('pages/home', {
@@ -127,7 +139,12 @@ app.get('/about', (req, res) => {
       const preloader = await api.getSingle('preloader')
 
       if (!meta) {
-        meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
+        meta = {
+          data: {
+            title: 'mathiso - Portfolio',
+            description: 'Jeune amateur de sites web créatifs et attranyants'
+          }
+        }
       }
 
       res.render('pages/about', {
@@ -152,7 +169,12 @@ app.get('/works', async (req, res) => {
   })
 
   if (!meta) {
-    meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attrayants' } }
+    meta = {
+      data: {
+        title: 'mathiso - Portfolio',
+        description: 'Jeune amateur de sites web créatifs et attrayants'
+      }
+    }
   }
 
   res.render('pages/works', {
@@ -177,7 +199,12 @@ app.get('/details/:uid', async (req, res) => {
     let meta = response.results.find(doc => doc.type === 'meta')
 
     if (!meta) {
-      meta = { data: { title: 'mathiso - Portfolio', description: 'Jeune amateur de sites web créatifs et attranyants' } }
+      meta = {
+        data: {
+          title: 'mathiso - Portfolio',
+          description: 'Jeune amateur de sites web créatifs et attranyants'
+        }
+      }
     }
 
     res.render('pages/details', {

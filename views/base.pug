@@ -31,7 +31,8 @@ html(lang="fr")
 
     link(href="main.css" rel="stylesheet")
 
-  body
+body(class= isDesktop ? "desktop" : isTablet ? "tablet" : isPhone ? "phone" : "")
+
   include ./partials/preloader.pug
   include ./partials/navigation.pug
 
