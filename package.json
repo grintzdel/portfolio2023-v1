@@ -34,6 +34,7 @@
     "include-media": "^2.0.0",
     "mini-css-extract-plugin": "^2.7.6",
     "normalize-wheel": "^1.0.1",
+    "ogl": "^1.0.6",
     "postcss-loader": "^7.3.3",
     "prefix": "^1.0.0",
     "sass": "^1.68.0",
