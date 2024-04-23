@@ -1,6 +1,6 @@
 block variables
 doctype html
-html(lang="fr")
+html(class= isDesktop ? "desktop" : isTablet ? "tablet" : isPhone ? "phone" : "" lang="fr")
   head
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
@@ -31,7 +31,7 @@ html(lang="fr")
 
     link(href="main.css" rel="stylesheet")
 
-body(class= isDesktop ? "desktop" : isTablet ? "tablet" : isPhone ? "phone" : "")
+body
 
   include ./partials/preloader.pug
   include ./partials/navigation.pug
