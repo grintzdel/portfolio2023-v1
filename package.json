@@ -37,6 +37,7 @@
     "ogl": "^1.0.6",
     "postcss-loader": "^7.3.3",
     "prefix": "^1.0.0",
+    "raw-loader": "^4.0.2",
     "sass": "^1.68.0",
     "sass-loader": "^13.3.2",
     "webpack": "^5.88.2",
