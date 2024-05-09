@@ -1,20 +1,9 @@
 import GSAP from 'gsap'
-
 import Animation from 'classes/Animation'
-
-import { calculate, split } from 'utils/text'
 
 export default class Paragraph extends Animation {
   constructor ({ element, elements }) {
-    super({
-      element,
-      elements
-    })
-
-    this.elementLinesSpans = split({
-      append: true,
-      element: this.element
-    })
+    super({ element, elements })
   }
 
   animateIn () {
@@ -35,12 +24,5 @@ export default class Paragraph extends Animation {
     GSAP.set(this.element, {
       autoAlpha: 0
     })
-  }
-
-  onResize () {
-    if (Array.isArray(this.elementLinesSpans)) {
-      this.elementLinesSpans = this.elementLinesSpans.filter(element => element !== undefined)
-      this.elementsLines = calculate(this.elementLinesSpans)
-    }
   }
 }

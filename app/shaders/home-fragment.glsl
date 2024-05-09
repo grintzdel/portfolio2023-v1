@@ -1,4 +1,4 @@
-﻿precision highp float;
+precision highp float;
 
 uniform float uAlpha;
 uniform sampler2D tMap;

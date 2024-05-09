@@ -2,10 +2,7 @@ import Component from 'classes/Component'
 
 export default class Animation extends Component {
   constructor ({ element, elements }) {
-    super({
-      element,
-      elements
-    })
+    super({ element, elements })
 
     this.createObserver()
 
@@ -13,8 +10,8 @@ export default class Animation extends Component {
   }
 
   createObserver () {
-    this.observer = new window.IntersectionObserver(entries => {
-      entries.forEach(entry => {
+    this.observer = new window.IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           this.animateIn()
         } else {
@@ -26,12 +23,9 @@ export default class Animation extends Component {
     this.observer.observe(this.element)
   }
 
-  animateIn () {
-  }
+  animateIn () {}
 
-  animateOut () {
-  }
+  animateOut () {}
 
-  onResize () {
-  }
+  onResize () {}
 }

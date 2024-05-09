@@ -7,8 +7,8 @@ block content
   .home(data-background="#ffffff" data-color="#000000")
     .home__wrapper
       .home__titles
-        each collection in works
-          .home__titles__label=`${home.data.works}`
+        each collection in collections
+          .home__titles__label=`${home.data.collection}`
           .home__titles__title=collection.data.title
 
       .home__gallery

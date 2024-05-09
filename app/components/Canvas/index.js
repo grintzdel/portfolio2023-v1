@@ -1,9 +1,18 @@
+/* eslint-disable no-unused-vars */
+import GSAP from 'gsap'
 import { Camera, Renderer, Transform } from 'ogl'
 
+import About from './About'
+import Collections from './Collections'
+import Detail from './Detail'
 import Home from './Home'
 
+import Transition from './Transition'
+
 export default class Canvas {
-  constructor () {
+  constructor ({ template }) {
+    this.template = template
+
     this.x = {
       start: 0,
       distance: 0,
@@ -21,12 +30,13 @@ export default class Canvas {
     this.createScene()
 
     this.onResize()
-
-    this.createHome()
   }
 
   createRenderer () {
-    this.renderer = new Renderer()
+    this.renderer = new Renderer({
+      alpha: true,
+      antialias: true
+    })
 
     this.gl = this.renderer.gl
 
@@ -35,6 +45,7 @@ export default class Canvas {
 
   createCamera () {
     this.camera = new Camera(this.gl)
+
     this.camera.position.z = 5
   }
 
@@ -42,12 +53,136 @@ export default class Canvas {
     this.scene = new Transform()
   }
 
+  //   Home
   createHome () {
     this.home = new Home({
       gl: this.gl,
       scene: this.scene,
       sizes: this.sizes
     })
+  }
+
+  destroyHome () {
+    if (!this.home) return
+
+    this.home.destroy()
+    this.home = null
+  }
+
+  //   About
+  createAbout () {
+    this.about = new About({
+      gl: this.gl,
+      scene: this.scene,
+      sizes: this.sizes
+    })
+  }
+
+  destroyAbout () {
+    if (!this.about) return
+
+    this.about.destroy()
+    this.about = null
+  }
+
+  //   Collections
+  createCollections () {
+    this.collections = new Collections({
+      gl: this.gl,
+      scene: this.scene,
+      sizes: this.sizes,
+      transition: this.transition
+    })
+  }
+
+  destroyCollections () {
+    if (!this.collections) return
+
+    this.collections.destroy()
+    this.collections = null
+  }
+
+  //   Detail
+
+  createDetail () {
+    this.detail = new Detail({
+      gl: this.gl,
+      scene: this.scene,
+      sizes: this.sizes,
+      transition: this.transition
+    })
+  }
+
+  destroyDetail () {
+    if (!this.detail) return
+
+    this.detail.destroy()
+    this.detail = null
+  }
+
+  // Events
+  onPreloaded () {
+    this.onChangeEnd(this.template)
+  }
+
+  onChangeStart (template, url) {
+    if (this.home) {
+      this.home.hide()
+    }
+
+    if (this.collections) {
+      this.collections.hide()
+    }
+
+    if (this.detail) {
+      this.detail.hide()
+    }
+
+    if (this.about) {
+      this.about.hide()
+    }
+
+    this.isFromCollectionsToDetail = this.template === 'collections' && url.indexOf('detail') > -1 // prettier-ignore
+    this.isFromDetailToCollections = this.template === 'detail' && url.indexOf('collections') > -1 // prettier-ignore
+
+    if (this.isFromCollectionsToDetail || this.isFromDetailToCollections) {
+      this.transition = new Transition({
+        gl: this.gl,
+        scene: this.scene,
+        sizes: this.sizes,
+        url
+      })
+
+      this.transition.setElement(this.collections || this.detail)
+    }
+  }
+
+  onChangeEnd (template) {
+    if (template === 'home') {
+      this.createHome()
+    } else {
+      this.destroyHome()
+    }
+
+    if (template === 'about') {
+      this.createAbout()
+    } else if (this.about) {
+      this.destroyAbout()
+    }
+
+    if (template === 'detail') {
+      this.createDetail()
+    } else if (this.detail) {
+      this.destroyDetail()
+    }
+
+    if (template === 'collections') {
+      this.createCollections()
+    } else if (this.collections) {
+      this.destroyCollections()
+    }
+
+    this.template = template
   }
 
   onResize () {
@@ -66,62 +201,142 @@ export default class Canvas {
       width
     }
 
+    const values = {
+      sizes: this.sizes
+    }
+
+    if (this.about) {
+      this.about.onResize(values)
+    }
+
+    if (this.collections) {
+      this.collections.onResize(values)
+    }
+
+    if (this.detail) {
+      this.detail.onResize(values)
+    }
+
     if (this.home) {
-      this.home.onResize({
-        sizes: this.sizes
-      })
+      this.home.onResize(values)
     }
   }
 
-  onTouchDown (event) {
+  onTouchDown (e) {
     this.isDown = true
 
-    this.x.start = event.touches ? event.touches[0].clientX : event.clientX
-    this.y.start = event.touches ? event.touches[0].clientY : event.clientY
+    this.x.start = e.touches ? e.touches[0].clientX : e.clientX
+    this.y.start = e.touches ? e.touches[0].clientY : e.clientY
+
+    const values = {
+      x: this.x,
+      y: this.y
+    }
+
+    if (this.about) {
+      this.about.onTouchDown(values)
+    }
+
+    if (this.collections) {
+      this.collections.onTouchDown(values)
+    }
+
+    if (this.detail) {
+      this.detail.onTouchDown(values)
+    }
 
     if (this.home) {
-      this.home.onTouchDown({
-        x: this.x,
-        y: this.y
-      })
+      this.home.onTouchDown(values)
     }
   }
 
-  onTouchMove (event) {
+  onTouchMove (e) {
     if (!this.isDown) return
 
-    const x = event.touches ? event.touches[0].clientX : event.clientX
-    const y = event.touches ? event.touches[0].clientY : event.clientY
+    const x = e.touches ? e.touches[0].clientX : e.clientX
+    const y = e.touches ? e.touches[0].clientY : e.clientY
 
     this.x.end = x
     this.y.end = y
 
+    const values = {
+      x: this.x,
+      y: this.y
+    }
+
+    if (this.about) {
+      this.about.onTouchMove(values)
+    }
+
+    if (this.collections) {
+      this.collections.onTouchMove(values)
+    }
+
+    if (this.detail) {
+      this.detail.onTouchMove(values)
+    }
+
     if (this.home) {
-      this.home.onTouchMove({
-        x: this.x,
-        y: this.y
-      })
+      this.home.onTouchMove(values)
     }
   }
 
-  onTouchUp (event) {
+  onTouchUp (e) {
     this.isDown = false
 
-    const x = event.changedTouches ? event.changedTouches[0].clientX : event.clientX
-    const y = event.changedTouches ? event.changedTouches[0].clientY : event.clientY
+    const x = e.changedTouches ? e.changedTouches[0].clientX : e.clientX
+    const y = e.changedTouches ? e.changedTouches[0].clientY : e.clientY
 
     this.x.end = x
     this.y.end = y
 
+    const values = {
+      x: this.x,
+      y: this.y
+    }
+
+    if (this.about) {
+      this.about.onTouchUp(values)
+    }
+
+    if (this.collections) {
+      this.collections.onTouchUp(values)
+    }
+
+    if (this.detail) {
+      this.detail.onTouchUp(values)
+    }
+
     if (this.home) {
-      this.home.onTouchUp({
-        x: this.x,
-        y: this.y
-      })
+      this.home.onTouchUp(values)
     }
   }
 
-  update () {
+  onWheel (e) {
+    if (this.home) {
+      this.home.onWheel(e)
+    }
+
+    if (this.collections) {
+      this.collections.onWheel(e)
+    }
+  }
+
+  // Loop.
+
+  update (scroll) {
+    if (this.about) {
+      this.about.update(scroll)
+    }
+
+    if (this.collections) {
+      this.collections.update()
+    }
+
+    if (this.detail) {
+      this.detail.update()
+    }
+
     if (this.home) {
       this.home.update()
     }
